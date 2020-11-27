@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "HU_details_json/schema.json",
+  "type": "array",
+  "default": [],
+  "additionalItems": true,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "date",
+      "additional",
+      "cumulated",
+      "baseUrl",
+      "source"
+    ],
+    "properties": {
+      "date": {
+        "type": "string"
+      },
+      "active": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "infected": {
+            "type": "integer"
+          },
+          "infectedBp%": {
+            "type": "integer"
+          },
+          "details_active": {
+            "type": "object"
+          }
+        }
+      },
+      "additional": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "infected": {
+            "type": "integer"
+          },
+          "deaths": {
+            "type": "integer"
+          },
+          "recoveredFromHospital": {
+            "type": "integer"
+          }
+        }
+      },
+      "cumulated": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "infected": {
+            "type": "integer"
+          },
+          "deaths": {
+            "type": "integer"
+          },
+          "details_deaths": {
+            "type": "object"
+          },
+          "recoveredFromHospital": {
+            "type": "integer"
+          },
+          "deathsBp%": {
+            "type": "integer"
+          },
+          "recoveredBp%": {
+            "type": "integer"
+          }
+        }
+      },
+      "hospital": {
+        "type": "integer"
+      },
+      "onVentilator": {
+        "type": "integer"
+      },
+      "baseUrl": {
+        "type": "string"
+      },
+      "source": {
+        "type": "string"
+      },
+      "comment": {
+        "type": "string"
+      }
+    }
+  }
+}
