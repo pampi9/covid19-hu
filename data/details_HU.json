@@ -5552,6 +5552,29 @@
     {
         "date":"2020-11-28",
         "additional":{
+            "infected":6268,
+            "deaths":152
+        },
+        "cumulated": {
+            "infected":204708,
+            "deaths":4516,
+            "recoveredFromHospital":54021,
+            "deathsBp%":24,
+            "recoveredBp%":26
+        },
+        "active":{
+            "infected":146171,
+            "infectedBp%":20
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":7536,
+        "onVentilator":644,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"6268-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-152-beteg"
+    },
+    {
+        "date":"2020-11-29",
+        "additional":{
             "infected":0,
             "deaths":0
         },
