@@ -1,59 +1,65 @@
-import urllib3
-import json
-import requests
 import datetime
-from bs4 import BeautifulSoup
-import urllib
+import filecmp
+import json
 import os
 import shutil
-import filecmp
-from .NewsExtractor import NewsExtractor
+import time
+import urllib
+
+import requests
+import urllib3
+from bs4 import BeautifulSoup
+
 from .DataProcessing import Preprocessing
+from .NewsExtractor import NewsExtractor
 
 
 class Load:
+    URL_TIMEOUT = 60
+
     @staticmethod
     def load_map(data_dir="."):
         # map
         url_map = "https://koronavirus.gov.hu/terkepek/fertozottek"
-        page_map = requests.get(url_map, timeout=2.50)
-        soup_map = BeautifulSoup(page_map.content, 'html.parser')
-        img_map = soup_map.select("img")[0]
-        if img_map.has_attr('src'):
-            url_map_img = img_map['src']
-            print(url_map_img)
-            file_name_tmp = "{}/map_png/tmp_terkep.png".format(data_dir)
-            file_name_latest = "{}/map_png/latest_terkep.png".format(data_dir)
-            file_name_time = "{}/map_png/map_{}.png".format(data_dir, datetime.date.today())
-            # Download the file from `url` and save it locally under `file_name_tmp`:
-            with urllib.request.urlopen(url_map_img) as response, open(file_name_tmp, 'wb') as out_file:
-                data = response.read()  # a `bytes` object
-                out_file.write(data)
-            # If latest missing copy tmp to latest
-            if os.path.isfile(file_name_tmp):
-                # Latest missing - copy tmp to latest and to new file
-                if not os.path.isfile(file_name_latest):
-                    shutil.copyfile(file_name_tmp, file_name_latest)
-                    print("Map saved as {}!".format(file_name_time))
-                    shutil.copyfile(file_name_tmp, file_name_time)
-                # Tmp differs from latest
-                elif not filecmp.cmp(file_name_tmp, file_name_latest):
-                    # New file missing - copy to latest and to new file
-                    if not os.path.isfile(file_name_time):
+        try:
+            page_map = requests.get(url_map, timeout=Load.URL_TIMEOUT)
+            soup_map = BeautifulSoup(page_map.content, 'html.parser')
+            img_map = soup_map.select("img")[0]
+            if img_map.has_attr('src'):
+                url_map_img = img_map['src']
+                print(url_map_img)
+                file_name_tmp = "{}/map_png/tmp_terkep.png".format(data_dir)
+                file_name_latest = "{}/map_png/latest_terkep.png".format(data_dir)
+                file_name_time = "{}/map_png/map_{}.png".format(data_dir, datetime.date.today())
+                # Download the file from `url` and save it locally under `file_name_tmp`:
+                with urllib.request.urlopen(url_map_img) as response, open(file_name_tmp, 'wb') as out_file:
+                    data = response.read()  # a `bytes` object
+                    out_file.write(data)
+                # If latest missing copy tmp to latest
+                if os.path.isfile(file_name_tmp):
+                    # Latest missing - copy tmp to latest and to new file
+                    if not os.path.isfile(file_name_latest):
+                        shutil.copyfile(file_name_tmp, file_name_latest)
                         print("Map saved as {}!".format(file_name_time))
                         shutil.copyfile(file_name_tmp, file_name_time)
-                    print("Map changed!")
-                    shutil.copyfile(file_name_tmp, file_name_latest)
-        else:
-            print("Map img is missing!")
+                    # Tmp differs from latest
+                    elif not filecmp.cmp(file_name_tmp, file_name_latest):
+                        # New file missing - copy to latest and to new file
+                        if not os.path.isfile(file_name_time):
+                            print("Map saved as {}!".format(file_name_time))
+                            shutil.copyfile(file_name_tmp, file_name_time)
+                        print("Map changed!")
+                        shutil.copyfile(file_name_tmp, file_name_latest)
+            else:
+                print("Map img is missing!")
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+            print("Map request timeout")
 
     @staticmethod
     def load_deaths(data_dir="."):
         # detailed deaths
         try:
             values_deaths = Load._collect_deaths()
-            deaths_count = len(values_deaths)
-
             with open("{}/deaths_hu/latest.json".format(data_dir), "r") as infile:
                 previous_state = json.loads(infile.read())
             if values_deaths != previous_state:
@@ -62,12 +68,12 @@ class Load:
                     json.dump(values_deaths, outfile)
             with open("{}/deaths_hu/latest.json".format(data_dir), "w") as outfile:
                 json.dump(values_deaths, outfile)
-        except urllib3.exceptions.ReadTimeoutError as e:
+        except urllib3.exceptions.ReadTimeoutError:
             print("ReadTimeoutError: load_deaths")
-        except urllib3.exceptions.MaxRetryError as e:
+        except urllib3.exceptions.MaxRetryError:
             print("MaxRetryError: load_deaths")
-        except requests.exceptions.ConnectTimeout as e:
-            print("ConnectTimeout: load_deaths")
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+            print("ConnectTimeout or ReadTimeout: load_deaths")
 
     @staticmethod
     def _collect_deaths():
@@ -77,35 +83,40 @@ class Load:
         values_deaths = []
 
         while continue_flag:
-            print(url_deaths)
+            print("Load: {}".format(url_deaths), end=' ')
             # detailed deaths
-            # TODO: try except
-            page_deaths = requests.get(url_deaths, timeout=2.50)
-            soup_deaths = BeautifulSoup(page_deaths.content, 'html.parser')
-            rows_deaths = soup_deaths.select("table")[0].select("tr")
+            try:
+                now = time.time_ns()
+                page_deaths = requests.get(url_deaths, timeout=Load.URL_TIMEOUT)
+                duration_ms = round((time.time_ns() - now) / 1000000)
+                print("{} ms".format(duration_ms), end='\r')
+                soup_deaths = BeautifulSoup(page_deaths.content, 'html.parser')
+                rows_deaths = soup_deaths.select("table")[0].select("tr")
 
-            cells = [
-                "views-field-field-elhunytak-sorszam",
-                "views-field-field-elhunytak-nem",
-                "views-field-field-elhunytak-kor",
-                "views-field-field-elhunytak-alapbetegsegek"
-            ]
-            for row in rows_deaths:
-                if len(header_deaths) == 0:
-                    for cell in cells:
-                        header_deaths[cell] = row.select("th.{}".format(cell))[0].text.replace("\n", "").strip()
+                cells = [
+                    "views-field-field-elhunytak-sorszam",
+                    "views-field-field-elhunytak-nem",
+                    "views-field-field-elhunytak-kor",
+                    "views-field-field-elhunytak-alapbetegsegek"
+                ]
+                for row in rows_deaths:
+                    if len(header_deaths) == 0:
+                        for cell in cells:
+                            header_deaths[cell] = row.select("th.{}".format(cell))[0].text.replace("\n", "").strip()
+                    else:
+                        value_deaths = {}
+                        for cell in cells:
+                            if len(row.select("td.{}".format(cell))) > 0:
+                                value_deaths[header_deaths[cell]] = row.select(
+                                    "td.{}".format(cell)
+                                )[0].text.replace("\n", "").strip()
+                        values_deaths.append(value_deaths)
+                if len(soup_deaths.select("li.next a")) > 0:
+                    url_deaths = "https://koronavirus.gov.hu" + soup_deaths.select("li.next a")[0]["href"]
                 else:
-                    value_deaths = {}
-                    for cell in cells:
-                        if len(row.select("td.{}".format(cell))) > 0:
-                            value_deaths[header_deaths[cell]] = row.select(
-                                "td.{}".format(cell)
-                            )[0].text.replace("\n", "").strip()
-                    values_deaths.append(value_deaths)
-            if len(soup_deaths.select("li.next a")) > 0:
-                url_deaths = "https://koronavirus.gov.hu" + soup_deaths.select("li.next a")[0]["href"]
-            else:
-                continue_flag = False
+                    continue_flag = False
+            except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+                print("Deaths request timeout")
         return values_deaths
 
     @staticmethod
@@ -129,7 +140,7 @@ class Load:
         }
 
         url_hu = "https://koronavirus.gov.hu/"
-        page = requests.get(url_hu, timeout=2.50)
+        page = requests.get(url_hu, timeout=Load.URL_TIMEOUT)
         soup = BeautifulSoup(page.content, 'html.parser')
         json_output = Load.extract_json(soup, api_keys)
 

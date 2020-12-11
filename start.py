@@ -1,6 +1,7 @@
-import threading
 import logging
+import threading
 import time
+
 import model as md
 
 load = True
@@ -10,14 +11,18 @@ show = False
 def threaded_load():
     while True:
         data_dir = "data"
-        logging.info("%s: starting", "load data")
+        logging.info("%s: starting", "Load data")
         md.Load.load_map(data_dir=data_dir)
+        logging.info("%s: done", "Map")
         md.Load.load_deaths(data_dir=data_dir)
+        logging.info("%s: done", "Deaths")
         md.Load.load_kpi(data_dir=data_dir)
         md.Load.load_news(data_dir=data_dir)
         process_thread = threading.Thread(target=md.Load.process_data, args=(data_dir,))
         process_thread.start()
-        logging.info("%s: ending", "load data")
+        process_thread.join()
+        md.Merger(data_dir=data_dir, load_from_raw=True, write_agg=True)
+        logging.info("%s: ending", "Load data")
         time.sleep(3600)
 
 

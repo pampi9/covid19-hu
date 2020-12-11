@@ -1,25 +1,26 @@
-import re
-import os
 import json
-import pandas as pd
-import matplotlib.pyplot as plt
+import os
+import re
 
-import numpy as np
-from sklearn.linear_model import LinearRegression
+import jsonschema
 # from sklearn.linear_model import LogisticRegression
 import matplotlib.dates as dates
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 from pandas.plotting import register_matplotlib_converters
+from sklearn.linear_model import LinearRegression
 
 register_matplotlib_converters()
 
 
 class Preprocessing:
-    mapping = {
+    MAPPING = {
         "Elhunyt value": "Elhunytak value",
         "Fertőzött value": "Fertőzöttek value",
         "Gyógyult value": "Gyógyultak value"
     }
-    paths_to_json = {
+    PATHS_TO_JSON = {
         'kpi_hu/': [
             "deaths", "infected", "recovered",
             "deaths_pest", "infected_pest", "recovered_pest",
@@ -45,7 +46,7 @@ class Preprocessing:
     @staticmethod
     def preprocess(data_dir):
         # Merge new files
-        for path_to_json in Preprocessing.paths_to_json:
+        for path_to_json in Preprocessing.PATHS_TO_JSON:
             path_to_json = "{}/{}".format(data_dir, path_to_json)
             json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')]
             output = {}  # one key per month
@@ -66,15 +67,16 @@ class Preprocessing:
                             if month not in output:
                                 output[month] = {}
                             output[month] = {**data, **output[month]}
-            for month in output:
-                print("{} - {}: {} db".format(path_to_json, month, len(output[month])))
+            for month in dict(sorted(output.items())):
+                print("{} - {}: {} db".format(path_to_json, month, len(output[month])), end="\r")
                 with open("{}{}.json".format(path_to_json, month), 'w') as outfile:
                     json.dump(output[month], outfile, sort_keys=True)
+        print("Preprocess finished")
 
     def load_existing_data(self, data_dir):
         # Load existing data to Dataframe
         self.df = {}
-        for path_to_json, columns in Preprocessing.paths_to_json.items():
+        for path_to_json, columns in Preprocessing.PATHS_TO_JSON.items():
             path = "{}/{}".format(data_dir, path_to_json)
             key_for_folder = path_to_json.replace("/", "")
             json_files = [
@@ -84,6 +86,7 @@ class Preprocessing:
 
             self.df[key_for_folder] = None
             for file in json_files:
+                print("File:", file, end="\r")
                 temp = pd.read_json(path + file, orient="index")
                 if isinstance(self.df[key_for_folder], pd.DataFrame):
                     self.df[key_for_folder] = self.df[key_for_folder].append(temp, sort=False)
@@ -94,7 +97,7 @@ class Preprocessing:
             )
             # Rename with mapping by name
             columns_to_rename = {}
-            for col_from, col_to in Preprocessing.mapping.items():
+            for col_from, col_to in Preprocessing.MAPPING.items():
                 if col_from in self.df[key_for_folder].columns:
                     columns_to_rename[col_from] = col_to
             self.df[key_for_folder].rename(columns=columns_to_rename, inplace=True)
@@ -102,6 +105,19 @@ class Preprocessing:
             self.df[key_for_folder] = self.df[key_for_folder].sort_values("update", ascending=True)
             self.df[key_for_folder] = self.df[key_for_folder][columns]
             self.df[key_for_folder]["Country/Region"] = key_for_folder
+
+        # DETAILS
+        with open('{}/details_HU.json'.format(data_dir), 'r') as my_file:
+            data_json = json.load(my_file)
+        with open('{}/schema.json'.format(data_dir), 'r') as my_file:
+            schema_json = json.load(my_file)
+        jsonschema.validate(data_json, schema_json)
+        df = pd.json_normalize(data_json)
+        # Remove template (source='')
+        df = df[df["source"] != ""]
+        # Convert date column and add week/dayofweek
+        df["date"] = pd.to_datetime(df["date"], format='%Y-%m-%d')
+        self.df["details"] = df
 
     def add_aggregation(self):
         if "kpi_hu" in self.df:
@@ -143,7 +159,7 @@ class Preprocessing:
 
 class Analyse:
     @staticmethod
-    def startAnalyse(df, countries, y_label, y_column):
+    def start_analyse(df, countries, y_label, y_column):
         df = df[(df[y_column] > 0)]  # suppress data with no cases (before begin of epidemy)
         X = {}
         converted_x = {}
@@ -174,9 +190,6 @@ class Analyse:
             coeff[country] = regressor[country].coef_[0]
             daily_coeff[country] = round(10 ** (3600 * 24 * (10 ** 9) * regressor[country].coef_[0]), 1)
             doubling_coeff[country] = 2 / daily_coeff[country]
-            # print(country)
-            # print('intercept:', model[country].intercept_)
-            # print('slope:', model[country].coef_[0])
 
             # Generate prediction: regressor.predict(converted_x)
             x_pred[country] = pd.DataFrame([
@@ -212,8 +225,6 @@ class Analyse:
             plot_df_pred = pd.DataFrame(x_pred[country])
             plot_df_pred["y"] = y_pred[country]
             plot_df_pred.plot(x="update", y="y", ax=ax, style="--", label="pred " + country)
-            # plt.plot(X[country], y[country], "ro")
-            # plt.plot(x_pred[country][["update"]], y_pred[country], "b--")
         plt.title('prediction')
         plt.xlabel('datetime')
         plt.ylabel(y_label)
@@ -222,9 +233,6 @@ class Analyse:
         print('Coefficient of determination:', r_sq)
         print("Evolution factor per day: {}".format(daily_coeff))
         print("Doubling in day(s): {}".format(doubling_coeff))
-        # print("Evolution factor per 2 days: {}".format(round(10**(3600*24*2*(10**9)*regressor[country].coef_[0]), 1)))
-        # print("Evolution factor per 3 days: {}".format(round(10**(3600*24*3*(10**9)*regressor[country].coef_[0]), 1)))
-        # print("Evolution factor per week: {}".format(round(10**(3600*24*7*(10**9)*regressor[country].coef_[0]), 1)))
 
         x_pred[country]["pred"] = pd.DataFrame(y_pred[country])
         x_pred[country]["prev"] = x_pred[country].apply(

@@ -1,14 +1,17 @@
-import requests
-from bs4 import BeautifulSoup
 import json
+import logging
+import sys
 from os import listdir, mkdir
 from os.path import isfile, join, isdir
+
 import pandas as pd
-import sys
-import logging
+import requests
+from bs4 import BeautifulSoup
 
 
 class NewsExtractor:
+    URL_TIMEOUT = 60
+
     def __init__(self, page_count=20, data_dir="."):
         urls = NewsExtractor.collect_news("https://koronavirus.gov.hu/hirek", page_count)
         category = "data"
@@ -21,30 +24,34 @@ class NewsExtractor:
     @staticmethod
     def collect_news(url, level=80):
         """ Collect the urls, title of the news """
-        news = {"data": [], "other": [], "noimg": []}
-        page_news = requests.get(url, timeout=10.0)
-        soup_news = BeautifulSoup(page_news.content, 'html.parser')
-        rows_news = soup_news.select("div.article-teaser a")
-        url_base = "https://koronavirus.gov.hu"
-        for item in rows_news:
-            if "/cikkek" in item["href"]:
-                base_img = url_base + "/sites/default/files/styles/large/public/aktualis_adatok"
-                if len(item.select("img")) > 0:
-                    adat_flag = (base_img in item.select("img")[0]["src"])
-                    if adat_flag:
-                        news["data"].append(url_base + item["href"])
+        try:
+            news = {"data": [], "other": [], "noimg": []}
+            page_news = requests.get(url, timeout=NewsExtractor.URL_TIMEOUT)
+            soup_news = BeautifulSoup(page_news.content, 'html.parser')
+            rows_news = soup_news.select("div.article-teaser a")
+            url_base = "https://koronavirus.gov.hu"
+            for item in rows_news:
+                if "/cikkek" in item["href"]:
+                    base_img = url_base + "/sites/default/files/styles/large/public/aktualis_adatok"
+                    if len(item.select("img")) > 0:
+                        adat_flag = (base_img in item.select("img")[0]["src"])
+                        if adat_flag:
+                            news["data"].append(url_base + item["href"])
+                        else:
+                            news["other"].append(url_base + item["href"])
                     else:
-                        news["other"].append(url_base + item["href"])
-                else:
-                    news["noimg"].append(url_base + item["href"])
+                        news["noimg"].append(url_base + item["href"])
 
-        next_page = soup_news.select("ul.pagination li.next a")
-        if level > 0 and len(next_page) > 0:
-            next_level = NewsExtractor.collect_news(url_base + next_page[0]["href"], level - 1)
-            news["data"] = news["data"] + next_level["data"]
-            news["other"] = news["other"] + next_level["other"]
-            news["noimg"] = news["noimg"] + next_level["noimg"]
-        return news
+            next_page = soup_news.select("ul.pagination li.next a")
+            if level > 0 and len(next_page) > 0:
+                next_level = NewsExtractor.collect_news(url_base + next_page[0]["href"], level - 1)
+                news["data"] = news["data"] + next_level["data"]
+                news["other"] = news["other"] + next_level["other"]
+                news["noimg"] = news["noimg"] + next_level["noimg"]
+            return news
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+            print("News request timeout")
+            return {"data": [], "other": [], "noimg": []}
 
     @staticmethod
     def collect_all_content(urls):
@@ -58,22 +65,27 @@ class NewsExtractor:
     def collect_news_content(url):
         """ Collect the content of one article """
         # print(url)
-        content = {"url": url, "h1": "", "date": "", "body": ""}
-        page_news = requests.get(url, timeout=10.0)
-        soup_news = BeautifulSoup(page_news.content, 'html.parser')
-        if len(soup_news.select("div.container h1")) > 0:
-            content["h1"] = soup_news.select("div.container h1")[0]
-        if len(soup_news.select("div.container p i")) > 0:
-            content["date"] = soup_news.select("div.container p i")[0]
-        if len(soup_news.select("div.page_body")) > 0:
-            content["body"] = soup_news.select("div.page_body")[0]
-        return content
+        try:
+            content = {"url": url, "h1": "", "date": "", "body": ""}
+            page_news = requests.get(url, timeout=NewsExtractor.URL_TIMEOUT)
+            soup_news = BeautifulSoup(page_news.content, 'html.parser')
+            if len(soup_news.select("div.container h1")) > 0:
+                content["h1"] = soup_news.select("div.container h1")[0]
+            if len(soup_news.select("div.container p i")) > 0:
+                content["date"] = soup_news.select("div.container p i")[0]
+            if len(soup_news.select("div.page_body")) > 0:
+                content["body"] = soup_news.select("div.page_body")[0]
+            return content
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout):
+            print("News details request timeout")
+            return {"url": url, "h1": "", "date": "", "body": ""}
 
     @staticmethod
     def save_to_file(row, category, data_dir):
         """ Save the data to a json file """
         date = row["date"].text.replace(",", "").replace(".", "")
         date_array = date.split(" ")
+        date_array[1] = date_array[1].replace("december", "12")
         date_array[1] = date_array[1].replace("november", "11")
         date_array[1] = date_array[1].replace("október", "10")
         date_array[1] = date_array[1].replace("szeptember", "09")

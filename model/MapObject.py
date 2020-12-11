@@ -1,9 +1,10 @@
-import pandas as pd
-import numpy as np
 import json
 import tkinter as tk
-from PIL import Image, ImageTk, ImageDraw
+
+import numpy as np
+import pandas as pd
 from IPython.display import display
+from PIL import Image, ImageTk, ImageDraw
 
 
 class MapObject:
