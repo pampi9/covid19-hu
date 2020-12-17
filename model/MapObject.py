@@ -25,6 +25,8 @@ class MapObject:
         # Image configurations
         self._box = json.load(open("{}/box.json".format(self.config_dir), "r"))
         self._regions = json.load(open("{}/regions.json".format(self.config_dir), "r"))
+        for region in self._regions:
+            self._regions[region] = MapObject.box(self._regions[region]["left"], self._regions[region]["top"])
         # Image manipulation
         self._original = None
         self._filename = None
@@ -108,6 +110,13 @@ class MapObject:
         :return: widthxheight
         """
         return "{width}x{height}".format(width=self._original.size[0], height=self._original.size[1])
+
+    @staticmethod
+    def box(x, y):
+        width = 16
+        height = 8
+        return {"left": x - width / 2, "right": 100 - x - width / 2, "top": y - height / 2,
+                "bottom": 100 - y - height / 2}
 
     @staticmethod
     def scale_coord(size, box, box_percent=None):
