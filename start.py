@@ -27,7 +27,7 @@ def threaded_load():
 
 
 if __name__ == "__main__":
-    date = "2020-11-16"
+    date = "2020-12-26"
     log_format = "%(asctime)s: %(message)s"
     logging.basicConfig(format=log_format, level=logging.INFO,
                         datefmt="%H:%M:%S")

@@ -64,6 +64,9 @@
           "recoveredFromHospital": {
             "type": "integer"
           },
+          "vaccinated": {
+            "type": "integer"
+          },
           "deathsBp%": {
             "type": "integer"
           },

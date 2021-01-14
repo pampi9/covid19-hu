@@ -51,14 +51,15 @@ class MapObject:
                 new_row = []
                 for col in row:
                     # if col[0] == 255 and col[1] == 255 and col[2] == 255:
-                    if col[0] > 250 and col[1] > 250 and col[2] > 250:
+                    limit = 250
+                    if col[0] > limit and col[1] > limit and col[2] > limit:
                         new_row.append(hex(0xffffff))
                     else:
                         new_row.append(hex(0x000000))
                         # new_row.append(hex(col[0] * 256 * 256 + col[1] * 256 + col[0]))
                 img.append(new_row)
             # set the percentage of red
-            no_white_limit = 0.01
+            no_white_limit = 0.05
             # check rows
             top = 0
             bottom = 0

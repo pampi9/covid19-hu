@@ -85,6 +85,7 @@ class NewsExtractor:
         """ Save the data to a json file """
         date = row["date"].text.replace(",", "").replace(".", "")
         date_array = date.split(" ")
+        date_array[1] = date_array[1].replace("január", "01")
         date_array[1] = date_array[1].replace("december", "12")
         date_array[1] = date_array[1].replace("november", "11")
         date_array[1] = date_array[1].replace("október", "10")
