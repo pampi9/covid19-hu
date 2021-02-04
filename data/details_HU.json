@@ -6595,6 +6595,7 @@
             "deaths":10853,
             "recoveredFromHospital":209852,
             "vaccinated":78579,
+            "vaccins":78579,
             "deathsBp%":0,
             "recoveredBp%":0
         },
@@ -6619,6 +6620,7 @@
             "deaths":10948,
             "recoveredFromHospital":215453,
             "vaccinated":86929,
+            "vaccins":129564,
             "deathsBp%":0,
             "recoveredBp%":0
         },
@@ -6643,6 +6645,7 @@
             "deaths":11066,
             "recoveredFromHospital":220304,
             "vaccinated":96101,
+            "vaccins":129860,
             "deathsBp%":0,
             "recoveredBp%":0
         },
@@ -6659,6 +6662,517 @@
     {
         "date":"2021-01-15",
         "additional":{
+            "infected":1513,
+            "deaths":111
+        },
+        "cumulated": {
+            "infected":349149,
+            "deaths":11177,
+            "recoveredFromHospital":225021,
+            "vaccinated":105728,
+            "vaccins":129860,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":112951,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4600,
+        "onVentilator":337,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1-513-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-111-beteg"
+    },
+    {
+        "date":"2021-01-16",
+        "additional":{
+            "infected":1438,
+            "deaths":87
+        },
+        "cumulated": {
+            "infected":350587,
+            "deaths":11264,
+            "recoveredFromHospital":227325,
+            "vaccinated":112847,
+            "vaccins":129860,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":111998,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4408,
+        "onVentilator":328,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1438-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-87-beteg"
+    },
+    {
+        "date":"2021-01-17",
+        "additional":{
+            "infected":1241,
+            "deaths":77
+        },
+        "cumulated": {
+            "infected":351828,
+            "deaths":11341,
+            "recoveredFromHospital":228615,
+            "vaccinated":119944,
+            "vaccins":129860,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":111872,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4345,
+        "onVentilator":329,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1241-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-77-beteg"
+    },
+    {
+        "date":"2021-01-18",
+        "additional":{
+            "infected":875,
+            "deaths":68
+        },
+        "cumulated": {
+            "infected":352703,
+            "deaths":11409,
+            "recoveredFromHospital":230441,
+            "vaccinated":123188,
+            "vaccins":129860,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":110853,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4445,
+        "onVentilator":330,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"875-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-68-beteg"
+    },
+    {
+        "date":"2021-01-19",
+        "additional":{
+            "infected":573,
+            "deaths":111
+        },
+        "cumulated": {
+            "infected":353276,
+            "deaths":11520,
+            "recoveredFromHospital":231915,
+            "vaccinated":129689,
+            "vaccinated2":1643,
+            "vaccins":129860,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":109841,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4445,
+        "onVentilator":309,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"573-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-111-beteg"
+    },
+    {
+        "date":"2021-01-20",
+        "additional":{
+            "infected":976,
+            "deaths":95
+        },
+        "cumulated": {
+            "infected":354252,
+            "deaths":11615,
+            "recoveredFromHospital":233232,
+            "vaccinated":130318,
+            "vaccinated2":2939,
+            "vaccins":165545,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":109405,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4218,
+        "onVentilator":294,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"976-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-95-beteg"
+    },
+    {
+        "date":"2021-01-21",
+        "additional":{
+            "infected":1410,
+            "deaths":98
+        },
+        "cumulated": {
+            "infected":355662,
+            "deaths":11713,
+            "recoveredFromHospital":235276,
+            "vaccinated":134554,
+            "vaccinated2":4030,
+            "vaccins":165545,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":108673,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":4049,
+        "onVentilator":286,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1-410-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-98-beteg"
+    },
+    {
+        "date":"2021-01-22",
+        "additional":{
+            "infected":1311,
+            "deaths":98
+        },
+        "cumulated": {
+            "infected":356973,
+            "deaths":11811,
+            "recoveredFromHospital":237362,
+            "vaccinated":138983,
+            "vaccinated2":5815,
+            "vaccins":165545,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":107800,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3959,
+        "onVentilator":274,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1-311-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-98-beteg"
+    },
+    {
+        "date":"2021-01-23",
+        "additional":{
+            "infected":1344,
+            "deaths":93
+        },
+        "cumulated": {
+            "infected":358317,
+            "deaths":11904,
+            "recoveredFromHospital":239880,
+            "vaccinated":143184,
+            "vaccinated2":6944,
+            "vaccins":165545,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":106533,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3854,
+        "onVentilator":259,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1344-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-93-beteg"
+    },
+    {
+        "date":"2021-01-24",
+        "additional":{
+            "infected":1257,
+            "deaths":64
+        },
+        "cumulated": {
+            "infected":359574,
+            "deaths":11968,
+            "recoveredFromHospital":241472,
+            "vaccinated":145257,
+            "vaccinated2":8135,
+            "vaccins":165545,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":106134,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3793,
+        "onVentilator":254,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1257-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-64-beteg"
+    },
+    {
+        "date":"2021-01-25",
+        "additional":{
+            "infected":844,
+            "deaths":56
+        },
+        "cumulated": {
+            "infected":360418,
+            "deaths":12024,
+            "recoveredFromHospital":243092,
+            "vaccinated":146695,
+            "vaccinated2":9403,
+            "vaccins":176660,
+            "deathsBp%":0,
+            "recoveredBp%":0
+        },
+        "active":{
+            "infected":105302,
+            "infectedBp%":0
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3814,
+        "onVentilator":247,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"844-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-56-beteg"
+    },
+    {
+        "date":"2021-01-26",
+        "additional":{
+            "infected":459,
+            "deaths":89
+        },
+        "cumulated": {
+            "infected":360877,
+            "deaths":12113,
+            "recoveredFromHospital":244681,
+            "vaccinated":149676,
+            "vaccinated2":12639,
+            "vaccins":176660
+        },
+        "active":{
+            "infected":104083
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3815,
+        "onVentilator":263,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"459-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-89-beteg"
+    },
+    {
+        "date":"2021-01-27",
+        "additional":{
+            "infected":1004,
+            "deaths":85
+        },
+        "cumulated": {
+            "infected":361881,
+            "deaths":12198,
+            "recoveredFromHospital":246596,
+            "vaccinated":152704,
+            "vaccinated2":17772,
+            "vaccins":201000
+        },
+        "active":{
+            "infected":103087
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3809,
+        "onVentilator":255,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1004-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-85-beteg"
+    },
+    {
+        "date":"2021-01-28",
+        "additional":{
+            "infected":1569,
+            "deaths":93
+        },
+        "cumulated": {
+            "infected":363450,
+            "deaths":12291,
+            "recoveredFromHospital":249003,
+            "vaccinated":161215,
+            "vaccinated2":26293,
+            "vaccins":201000
+        },
+        "active":{
+            "infected":102156
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3669,
+        "onVentilator":255,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1569-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-93-beteg"
+    },
+    {
+        "date":"2021-01-29",
+        "additional":{
+            "infected":1459,
+            "deaths":83
+        },
+        "cumulated": {
+            "infected":364909,
+            "deaths":12374,
+            "recoveredFromHospital":254783,
+            "vaccinated":175283,
+            "vaccinated2":37727,
+            "vaccins":201000
+        },
+        "active":{
+            "infected":97752
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3649,
+        "onVentilator":258,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1459-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-83-beteg"
+    },
+    {
+        "date":"2021-01-30",
+        "additional":{
+            "infected":1370,
+            "deaths":89
+        },
+        "cumulated": {
+            "infected":366279,
+            "deaths":12463,
+            "recoveredFromHospital":259555,
+            "vaccinated":198283,
+            "vaccinated2":49606,
+            "vaccins":201000
+        },
+        "active":{
+            "infected":94261
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3582,
+        "onVentilator":264,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1370-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-89-beteg"
+    },
+    {
+        "date":"2021-01-31",
+        "additional":{
+            "infected":1307,
+            "deaths":61
+        },
+        "cumulated": {
+            "infected":367586,
+            "deaths":12524,
+            "recoveredFromHospital":262968,
+            "vaccinated":222005,
+            "vaccinated2":56825
+        },
+        "active":{
+            "infected":92094
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3562,
+        "onVentilator":268,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1307-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-61-beteg"
+    },
+    {
+        "date":"2021-02-01",
+        "additional":{
+            "infected":1124,
+            "deaths":54
+        },
+        "cumulated": {
+            "infected":368710,
+            "deaths":12578,
+            "recoveredFromHospital":264260,
+            "vaccinated":237872,
+            "vaccinated2":61266,
+            "vaccins":221000
+        },
+        "active":{
+            "infected":91872
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3682,
+        "onVentilator":273,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1124-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-54-beteg"
+    },
+    {
+        "date":"2021-02-02",
+        "additional":{
+            "infected":578,
+            "deaths":78
+        },
+        "cumulated": {
+            "infected":369288,
+            "deaths":12656,
+            "recoveredFromHospital":268803,
+            "vaccinated":243036,
+            "vaccinated2":68526,
+            "vaccins":221000
+        },
+        "active":{
+            "infected":87829
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3729,
+        "onVentilator":272,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"578-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-78-beteg"
+    },
+    {
+        "date":"2021-02-03",
+        "additional":{
+            "infected":1048,
+            "deaths":83
+        },
+        "cumulated": {
+            "infected":370336,
+            "deaths":12739,
+            "recoveredFromHospital":272284,
+            "vaccinated":247270,
+            "vaccinated2":75036,
+            "vaccins":250000
+        },
+        "active":{
+            "infected":85313
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3697,
+        "onVentilator":269,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1048-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-83-beteg"
+    },
+    {
+        "date":"2021-02-04",
+        "additional":{
+            "infected":1652,
+            "deaths":93
+        },
+        "cumulated": {
+            "infected":371988,
+            "deaths":12832,
+            "recoveredFromHospital":274308,
+            "vaccinated":249687,
+            "vaccinated2":84452,
+            "vaccins":250000
+        },
+        "active":{
+            "infected":84848
+        },
+        "comment":"percentage for Bp only (Pest concil excluded)",
+        "hospital":3648,
+        "onVentilator":289,
+        "baseUrl":"https://koronavirus.gov.hu/cikkek/",
+        "source":"1652-fovel-emelkedett-beazonositott-fertozottek-szama-es-elhunyt-93-beteg"
+    },
+    {
+        "date":"2021-02-05",
+        "additional":{
             "infected":0,
             "deaths":0
         },
@@ -6667,12 +7181,11 @@
             "deaths":0,
             "recoveredFromHospital":0,
             "vaccinated":0,
-            "deathsBp%":0,
-            "recoveredBp%":0
+            "vaccinated2":0,
+            "vaccins":0
         },
         "active":{
-            "infected":0,
-            "infectedBp%":0
+            "infected":0
         },
         "comment":"percentage for Bp only (Pest concil excluded)",
         "hospital":0,

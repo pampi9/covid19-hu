@@ -45,7 +45,7 @@ class Merger:
     def show_kpi_world(self):
         return self.df["kpi_world"]
 
-    def convert_deaths_df(self):
+    def merge_deaths_df(self):
         folder = "{}/deaths_hu".format(self.data_dir)
         files = os.scandir(folder)
         file_names = []
@@ -66,7 +66,7 @@ class Merger:
             )
         return df0.reset_index()
 
-    def merge_deaths_df(self):
+    def load_deaths_df(self):
         return dd.read_parquet(self.GZIP_PATTERN.format(self.data_dir, "deaths_*"))
 
 

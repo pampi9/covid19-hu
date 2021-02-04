@@ -96,6 +96,7 @@ class NewsExtractor:
         date_array[1] = date_array[1].replace("május", "05")
         date_array[1] = date_array[1].replace("április", "04")
         date_array[1] = date_array[1].replace("március", "03")
+        date_array[1] = date_array[1].replace("február", "02")
         if len(date_array[2]) == 1:
             date_array[2] = "0{}".format(date_array[2])
         date_array.pop(3)

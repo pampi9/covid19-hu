@@ -67,6 +67,12 @@
           "vaccinated": {
             "type": "integer"
           },
+          "vaccinated2": {
+            "type": "integer"
+          },
+          "vaccins": {
+            "type": "integer"
+          },
           "deathsBp%": {
             "type": "integer"
           },
