@@ -98,16 +98,16 @@ class NewsExtractor:
         date_array[1] = date_array[1].replace("március", "03")
         date_array[1] = date_array[1].replace("február", "02")
         if len(date_array[2]) == 1:
-            date_array[2] = "0{}".format(date_array[2])
+            date_array[2] = f"0{date_array[2]}"
         date_array.pop(3)
-        date = "{}-{}-{} {}".format(date_array[0], date_array[1], date_array[2], date_array[3])
+        date = f"{date_array[0]}-{date_array[1]}-{date_array[2]} {date_array[3].replace(':','')}"
         month = "{}-{}".format(date_array[0], date_array[1])
         url = row["url"]
         h1 = row["h1"].text
         body = row["body"].text
-        if not isdir("{}/news_hu/{}".format(data_dir, month)):
-            mkdir("{}/news_hu/{}".format(data_dir, month))
-        filename = "{}/news_hu/{}/{}_{}.json".format(data_dir, month, category, date)
+        if not isdir(f"{data_dir}/news_hu/{month}"):
+            mkdir(f"{data_dir}/news_hu/{month}")
+        filename = f"{data_dir}/news_hu/{month}/{category}_{date}.json"
         with open(filename, 'w') as f:
             json_object = [{"date": date, "url": url, "h1": h1, "body": body}]
             json.dump(json_object, f)
