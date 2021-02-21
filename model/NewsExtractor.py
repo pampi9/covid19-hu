@@ -100,14 +100,14 @@ class NewsExtractor:
         if len(date_array[2]) == 1:
             date_array[2] = f"0{date_array[2]}"
         date_array.pop(3)
-        date = f"{date_array[0]}-{date_array[1]}-{date_array[2]} {date_array[3].replace(':','')}"
+        date = f"{date_array[0]}-{date_array[1]}-{date_array[2]} {date_array[3]}"
         month = "{}-{}".format(date_array[0], date_array[1])
         url = row["url"]
         h1 = row["h1"].text
         body = row["body"].text
         if not isdir(f"{data_dir}/news_hu/{month}"):
             mkdir(f"{data_dir}/news_hu/{month}")
-        filename = f"{data_dir}/news_hu/{month}/{category}_{date}.json"
+        filename = f"{data_dir}/news_hu/{month}/{category}_{date.replace(':','')}.json"
         with open(filename, 'w') as f:
             json_object = [{"date": date, "url": url, "h1": h1, "body": body}]
             json.dump(json_object, f)
