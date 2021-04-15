@@ -21,7 +21,10 @@ def threaded_load():
         process_thread = threading.Thread(target=md.Load.process_data, args=(data_dir,))
         process_thread.start()
         process_thread.join()
-        md.Merger(data_dir=data_dir, load_from_raw=True, write_agg=True).merge_deaths_df()
+        try:
+          md.Merger(data_dir=data_dir, load_from_raw=True, write_agg=True).merge_deaths_df()
+        except Exception:
+          print("Exception occured during merging process!")
         logging.info("%s: ending", "Load data")
         time.sleep(3600)
 

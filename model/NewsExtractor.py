@@ -135,6 +135,7 @@ class NewsReader:
         string2 = "szorulnak lélegeztetőgépre"
         string3 = "ápolnak"
         string4 = "lélegeztetőgépen"
+        output = []
         if my_date < date < my_date + pd.DateOffset(1) \
                 and (not string_filter or string1 in body or string2 in body or string3 in body or string4 in body):
             logging.info(date)
@@ -156,7 +157,8 @@ class NewsReader:
                 ColoredFormatter.str_color("underline", string4)
             )
             logging.info(body_formatted_4)
-        return False
+            output.append(body_formatted_4)
+        return output
 
     @staticmethod
     def read_from_file(filename):
