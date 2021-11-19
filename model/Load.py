@@ -232,7 +232,8 @@ class Load:
             json_output[index] = Load.extract_info(soup, index)
             # Extract numbers from 'API'
             for api_key in api_keys[index]:
-                json_output[index][api_key] = Load.convert_str_to_number(soup.select(api_keys[index][api_key])[0].text)
+                if len(soup.select(api_keys[index][api_key]))>0:
+                    json_output[index][api_key] = Load.convert_str_to_number(soup.select(api_keys[index][api_key])[0].text)
         return json_output
 
     @staticmethod
